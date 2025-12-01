@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
-import { Loader2 } from 'lucide-react';
+import { Loader2, CheckCircle, Mail, Send } from 'lucide-react';
 
 export default function Checkout() {
   const { cart, clearCart } = useContext(CartContext);
@@ -33,7 +33,7 @@ export default function Checkout() {
       await api.post('/orders/checkout');
       clearCart();
       setSuccess(true);
-      setTimeout(() => navigate('/orders'), 3000);
+      setTimeout(() => navigate('/orders'), 5000);
     } catch (err) {
       setError(err.response?.data?.message || 'Checkout failed. Please try again.');
     } finally {
@@ -43,9 +43,39 @@ export default function Checkout() {
 
   if (success) {
     return (
-      <div className="max-w-md mx-auto p-8 text-center bg-green-50 border border-green-200 rounded-xl shadow-lg mt-10">
-        <h2 className="text-3xl font-bold text-green-700 mb-4">Order Placed Successfully! 🎉</h2>
-        <p className="text-gray-600">You will be redirected to your orders page shortly.</p>
+      <div
+        className="
+        mt-20 text-center
+        p-6
+        md:p-6
+        lg:max-w-lg lg:mx-auto lg:p-10 lg:bg-white lg:border lg:border-green-300
+        lg:rounded-2xl lg:shadow-xl
+      "
+      >
+        <div className="flex justify-center mb-6">
+          <CheckCircle className="w-20 h-20 text-green-600 animate-successBounce" />
+        </div>
+
+        <h2 className="text-3xl md:text-4xl font-extrabold text-green-700 mb-4 tracking-tight">
+          Order Successful! 🎉
+        </h2>
+
+        <p className="text-base md:text-lg text-gray-700 mb-3">
+          Thank you for shopping with us.
+        </p>
+
+        <div
+          className="
+          flex items-center justify-center gap-2
+          text-green-700 font-semibold text-lg
+          bg-green-100 px-4 py-3 rounded-lg
+          shadow-sm animate-glowNotice mx-auto w-fit animate-pulse5s
+        "
+        >
+          <Mail className="w-6 h-6 text-green-700" />
+          <span>Order details sent to your email.</span>
+          <Send className="w-6 h-6 text-green-700" />
+        </div>
       </div>
     );
   }
