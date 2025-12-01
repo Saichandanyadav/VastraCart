@@ -1,17 +1,5 @@
 const Product = require('../models/Product');
 
-exports.seedProducts = async (req, res) => {
-  try {
-    const products = require('../scripts/seedProductsData'); 
-    await Product.deleteMany({});
-    await Product.insertMany(products);
-    res.json({ message: 'Products seeded' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Seeding failed' });
-  }
-};
-
 exports.getProducts = async (req, res) => {
   try {
     const { search, category, size, min, max, page = 1, limit = 10 } = req.query;
