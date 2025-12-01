@@ -20,6 +20,7 @@ exports.checkout = async (req, res) => {
           product: p._id,
           name: p.name,
           price: p.price,
+          image: p.image,
           size: ci.size,
           quantity: ci.quantity
         };
@@ -46,35 +47,48 @@ exports.checkout = async (req, res) => {
         <p>Thank you for shopping with us! Here’s a summary of your order:</p>
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
           <thead>
-            <tr style="background-color: #EDE9FE;">
-              <th style="padding: 8px; border: 1px solid #D1D5DB; text-align: left;">Product</th>
-              <th style="padding: 8px; border: 1px solid #D1D5DB; text-align: center;">Size</th>
-              <th style="padding: 8px; border: 1px solid #D1D5DB; text-align: center;">Qty</th>
-              <th style="padding: 8px; border: 1px solid #D1D5DB; text-align: right;">Price</th>
+            <tr style="background: #EDE9FE;">
+              <th style="padding: 10px; border: 1px solid #D1D5DB;">Image</th>
+              <th style="padding: 10px; border: 1px solid #D1D5DB;">Product</th>
+              <th style="padding: 10px; border: 1px solid #D1D5DB;">Size</th>
+              <th style="padding: 10px; border: 1px solid #D1D5DB;">Qty</th>
+              <th style="padding: 10px; border: 1px solid #D1D5DB;">Price</th>
             </tr>
           </thead>
           <tbody>
             ${items.map(it => `
               <tr>
-                <td style="padding: 8px; border: 1px solid #D1D5DB;">${it.name}</td>
-                <td style="padding: 8px; border: 1px solid #D1D5DB; text-align: center;">${it.size}</td>
-                <td style="padding: 8px; border: 1px solid #D1D5DB; text-align: center;">${it.quantity}</td>
-                <td style="padding: 8px; border: 1px solid #D1D5DB; text-align: right; color: #4F46E5;">₹${it.price}</td>
-              </tr>`).join('')}
+                <td style="padding:10px; border:1px solid #D1D5DB; text-align:center;">
+                  <img src="${it.image}" width="70" height="70" style="border-radius:8px; object-fit:cover;" />
+                </td>
+                <td style="padding:10px; border:1px solid #D1D5DB;">${it.name}</td>
+                <td style="padding:10px; border:1px solid #D1D5DB; text-align:center;">${it.size}</td>
+                <td style="padding:10px; border:1px solid #D1D5DB; text-align:center;">${it.quantity}</td>
+                <td style="padding:10px; border:1px solid #D1D5DB; text-align:right; color:#4F46E5;">₹${it.price}</td>
+              </tr>
+            `).join('')}
             <tr>
-              <td colspan="3" style="padding: 8px; border: 1px solid #D1D5DB; text-align: right; font-weight: bold;">Total</td>
-              <td style="padding: 8px; border: 1px solid #D1D5DB; text-align: right; font-weight: bold; color: #16A34A;">₹${totalPrice}</td>
+              <td colspan="4" style="padding:10px; border:1px solid #D1D5DB; text-align:right; font-weight:bold;">
+                Total
+              </td>
+              <td style="padding:10px; border:1px solid #D1D5DB; text-align:right; font-weight:bold; color:#16A34A;">
+                ₹${totalPrice}
+              </td>
             </tr>
           </tbody>
         </table>
-        <p style="margin-top: 16px;">Order ID: <strong>${order._id}</strong></p>
+
+        <p style="margin-top:20px;">Order ID: <strong>${order._id}</strong></p>
         <p>Order Date: ${new Date(order.orderDate).toLocaleString()}</p>
-        <div style="text-align: center; margin-top: 20px;">
-          <a href="${FRONTEND_URL}/orders" style="display:inline-block; padding: 12px 24px; background-color: #4F46E5; color: #fff; border-radius: 8px; text-decoration: none; font-weight: bold;">
-            📦 View My Orders
+
+        <div style="text-align:center; margin-top:20px;">
+          <a href="${FRONTEND_URL}/orders"
+             style="padding:12px 28px; background:#4F46E5; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">
+            View My Orders
           </a>
         </div>
-        <p style="margin-top: 20px; color: #6B7280; text-align: center;">— VastraCart</p>
+
+        <p style="margin-top: 20px; text-align: center; color:#6B7280;">— VastraCart</p>
       </div>
     `;
 
